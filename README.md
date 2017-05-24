@@ -1,6 +1,6 @@
 # xstruct
  doi:  10.3389/fmolb.2017.00023
-#README
+
 
 
 ## Main Step：
@@ -26,8 +26,6 @@ Demo
    	    ├── score_spi     #calculate and compare SPI score 
    	    └── score_saxs    #calculate and compare SAXS score 
 ```
-
-[TOC]
 
 # ZDOCK
 **Task**：Generate 2000 predicted complexes with Receptor and Ligand
@@ -138,7 +136,7 @@ Run `Demo/job.py` to submit the task to the server.  `nlst1` is the complex list
 2. To summit the jobs to the other queue, you should modify the `root/qsublow.pbs`
 
 
-#### Generate grid in ($-22.5^\circ$, $22.5^\circ$)   (Optional, only for oritentaion mismatching case)
+#### Generate grid in (-22.5°, 22.5°)   (Optional, only for oritentaion mismatching case)
 The program will generate a set of angles on grid, like [(-22.5,-22.5,-22.5),(-22.5,-19.5,-22.5),(-22.5,-16.5,-22.5)...(22.5,22.5,22.5)]; and a set of random angles within the range, like[(-15.3, 21.9 ,5.2),(10.7, -3.0, 17.9), (-4.0, 0.1, -9.6), ... ] .
 
 ```bash
@@ -162,7 +160,7 @@ The following code generate patterns with Poission and Gaussian noise. Output fi
 ```	
 
 
-#Score calculation I - **(orientation match)**
+# Score calculation I - **(orientation match)**
 #### **Input:** 
 *  scattering patterns in `./files_output/h5files/*.h5`
 	
@@ -232,8 +230,8 @@ Then `SAXS.csv` is generated. The first column is the complex index, the second 
 #### **How to run:**
 Same as orientation matching case, except the Path.
 ```bash
-    cd files_output/score_mis_spi
-    #Serial Mode:
+    	cd files_output/score_mis_spi
+    	#Serial Mode:
 	python compare_spi_mis.py
 	#Or Parallel Mode:
 	python compare_spi_mis.py N  #N is the number of threads.  
@@ -274,7 +272,7 @@ Same as orientation matching case, except the Path.
 Then you need to save the output of the score(SPI/Autocorr/SAXS) file (`spiN.csv`/`acN.csv`/`saxsN.csv`) in the folder `./hybN/`
 After you run the following code, the images would be saved in `./graph/N/`
 ```bash
-	cd Demo/review/scatterplot
+    cd Demo/review/scatterplot
     cp Demo/files_output/score_spi/spi.csv . # Or you can plot autocorr, saxs etc.. As long as the first column is index, second column is score
     cp Demo/rmsd.csv .#You need to calculate RMSD using VMD
     python plot.py
