@@ -3,13 +3,13 @@
 #README
 
 
-##Main Step：
+## Main Step：
 - Run ZDOCK to  generate protein complexes
 - Generate scattering patterns (Using C++ version)
 - Score calculation and visualization (Choose one score to calculate and analysis)
 
 
-##**Folder Structure**
+## **Folder Structure**
 ```none
 Demo
 	├── ZDOCK             #make predictions
@@ -29,7 +29,7 @@ Demo
 
 [TOC]
 
-#ZDOCK
+# ZDOCK
 **Task**：Generate 2000 predicted complexes with Receptor and Ligand
 **Path** : Demo/ZDOCK
 **Input**：`receptor.pdb`
@@ -73,18 +73,18 @@ Demo
 ```
 Before generating the patterns, you **MUST** _align_ the complexes! (Using VMD.)
 
-#Pattern Generation:
+# Pattern Generation:
 
-####**Input: ** 
+#### **Input:** 
  * Atom coordinates: `Demo/files_pdb/c*.pdb`
  * Experimental parameters (wave length, screen size, pixel size, pixel number): in `./root/task.input` 
 	
-####**Output: **
+#### **Output:**
   * scattering patterns in `Demo/file_output/h5files/*.h5`
 
 *Note:* Use `h5ls` or `h5dump` in linux shell to browse the HDF5 files.
 
-####**Folder Structure**
+#### **Folder Structure**
 ```none
 Demo/root/
 	├── qsubbatch.pbs     #summit the job (./run.sh) to the server
@@ -100,7 +100,7 @@ Demo/root/
 	└── fitangle.py       #collect patterns from the ./s/ and generate HDF5 file
 ```
 
-####**Step:**
+#### **Step:**
 1. All the parameters can be set in `./root/task.input`. 
 2. Then the `Demo/job.py` call `Demo/root/run.sh`
 3. `init.py` read `task.input`, and automatically generate `parameter.cpp` and `task`.
@@ -110,7 +110,7 @@ Demo/root/
 *Note: * `lstc0.h5` is the patterns of the native structure (RMSD=$0\mathring{A}$).   `lstcN.h5` are the patterns of predict structures.
 
 	
-####**How to run: **
+#### **How to run:**
 ```bash
 	cd demo
 	cp -r ./ZDOCK/zdock3.0.2_linux_x64/files_pdb .       #all the complexes files
@@ -138,7 +138,7 @@ Run `Demo/job.py` to submit the task to the server.  `nlst1` is the complex list
 2. To summit the jobs to the other queue, you should modify the `root/qsublow.pbs`
 
 
-####Generate grid in ($-22.5^\circ$, $22.5^\circ$)   (Optional, only for oritentaion mismatching case)
+#### Generate grid in ($-22.5^\circ$, $22.5^\circ$)   (Optional, only for oritentaion mismatching case)
 The program will generate a set of angles on grid, like [(-22.5,-22.5,-22.5),(-22.5,-19.5,-22.5),(-22.5,-16.5,-22.5)...(22.5,22.5,22.5)]; and a set of random angles within the range, like[(-15.3, 21.9 ,5.2),(10.7, -3.0, 17.9), (-4.0, 0.1, -9.6), ... ] .
 
 ```bash
@@ -152,7 +152,7 @@ cat taskgrid.txt >> Demo/root/task.input
 cat taskrand.txt >> Demo/root/task.input
 ```
 
-####Add noise (Optional)
+#### Add noise (Optional)
 The following code generate patterns with Poission and Gaussian noise. Output files would be saved in `Demo/review/noise/h5noise`
 ```bash
 	cd Demo/review/noise
@@ -163,18 +163,18 @@ The following code generate patterns with Poission and Gaussian noise. Output fi
 
 
 #Score calculation I - **(orientation match)**
-####**Input: ** 
+#### **Input:** 
 *  scattering patterns in `./files_output/h5files/*.h5`
 	
-####**Output: **
+#### **Output:**
 *  SPI score:  `./files_output/score_spi/spi.csv`
 *  Auto correlation score:  `./files_output/score_autocorr/autocorr.csv`
 *  SAXS score:  `./files_output/score_saxs/saxs.csv`
 
-####**Folder structure:**
+#### **Folder structure:**
  
-###SPI score
-####**How to run: **
+### SPI score
+#### **How to run:**
 ```bash
 	cd Demo/files_output/score_spi
 
@@ -187,9 +187,9 @@ The following code generate patterns with Poission and Gaussian noise. Output fi
 ```
 Then `spi.csv` is generated. The first column is the complex index, the second column is the spi score.
 
-###Auto-correlation score
+### Auto-correlation score
 Lanqing Huang made contribution to the program.
-####**How to run: **
+#### **How to run:**
 ```bash
 	cd Demo/files_output/score_ac
 	
@@ -203,9 +203,9 @@ Lanqing Huang made contribution to the program.
 ```
 Then `ac.csv` is generated. The first column is the complex index, the second column is the auto correlation score.
 
-###SAXS score
+### SAXS score
 
-####**How to run: **
+#### **How to run:**
 ```bash
 	cd Demo/files_output/score_saxs
 	python calc_saxs.py          #calculate the auto-correlation 
@@ -214,22 +214,22 @@ Then `ac.csv` is generated. The first column is the complex index, the second co
 ```
 Then `SAXS.csv` is generated. The first column is the complex index, the second column is the saxs score.
 
-#Score calculation II - **(orientation mismatching)**
-####**Input: ** 
+# Score calculation II - **(orientation mismatching)**
+#### **Input:** 
 *  scattering patterns in `./files_output/h5gridN/*.h5` N=2,3,5,9 for _grid step_ = $2^\circ,3^\circ,5^\circ,9^\circ$ 
 
 *Note:* The scattering pattern generation steps are same as the steps of orientation matching.  You should manually modify the orientations in `./root/task.input` or type `cat task.input.gridN >> task.input`.
  After you modify, the `task.input` should be like `task.input.examplegrid3`
 	
-####**Output: **
+#### **Output:**
 *  SPI score:  `./files_output/score_spi/spimis.csv`
 *  Auto correlation score:  `./files_output/score_autocorr/autocorrmis.csv`
 *  SAXS score:  `./files_output/score_saxs/saxsmis.csv`
 
-####**Folder structure:**
+#### **Folder structure:**
  
-###SPI score
-####**How to run: **
+### SPI score
+#### **How to run:**
 Same as orientation matching case, except the Path.
 ```bash
 	cd files_output/score_mis_spi
@@ -242,8 +242,8 @@ Same as orientation matching case, except the Path.
 	python compare_spi_collect_result.py
 ```
 
-###Auto correlation
-####**How to run: **
+### Auto correlation
+#### **How to run:**
 ```bash
 	cd Demo/files_output/score_ac
 
@@ -255,9 +255,9 @@ Same as orientation matching case, except the Path.
 	python compare_ac_mis.py 
 	python compare_ac_collect_result_mis.py
 ```
-###SAXS score
+### SAXS score
 
-####**How to run: **
+#### **How to run:**
 ```bash
 	cd Demo/files_output/score_saxs
 	python calc_saxs_mis.py          #calculate the auto-correlation 
@@ -266,9 +266,9 @@ Same as orientation matching case, except the Path.
 ```
 
 
-#Score calculation III - Visualization
+# Score calculation III - Visualization
 
-###Scattering plot, Probability curve, and AUC area
+### Scattering plot, Probability curve, and AUC area
 
 **Before you plot, you need to calculate _RMSD_ first. Then save the `rmsdN.csv` in folder `scatterplot/`**
 Then you need to save the output of the score(SPI/Autocorr/SAXS) file (`spiN.csv`/`acN.csv`/`saxsN.csv`) in the folder `./hybN/`
@@ -298,12 +298,12 @@ Histogram figure is the visualization of orientation mismatching. Before you run
 
 
 
-#Classification for every single patterns
+# Classification for every single patterns
 
 
-###Joint Training
+### Joint Training
 **Input:** `zdockjointfilenames_table.csv`, which contains all the path to the SPI score, Auto correlation and SAXS score.
-**Format: ** 
+**Format:** 
 		PathSPI1,PathAutocorr1,PathSAXS1
 		PathSPI2,PathAutocorr2,PathSAXS2
 		...
@@ -320,9 +320,9 @@ This program aims to classifyr all the 3 parameters (SPI score, Auto correlation
 ```
 
 
-#Other 
+# Other 
 
-###generate patterns with python (Much slower than  C++)
+### generate patterns with python (Much slower than  C++)
 This program read the parameters from `task.input` (should be in same path) , generate patterns and save in HDF5 format. The code is much clear than the C++ version.
 ```bash
 cd other/GenPattpy
@@ -330,7 +330,7 @@ vim 1patt.py
 python 1patt.py
 ```
 
-###calculate  and compare the intensity in 3D space(python)
+### calculate  and compare the intensity in 3D space(python)
 This program calcuate the intensities in 3D reciprocal space. You can use Xuanxuan Li's dataviewer to visualize the result.
 ```bash
 cd other/3D
