@@ -1,0 +1,11 @@
+#!/bin/sh -f
+#PBS -N hybrid
+#PBS -l nodes=1:ppn=1
+#PBS -o test.stdout
+#PBS -e test.stderr
+#PBS -q low
+
+nprocs=`wc -l < $PBS_NODEFILE`
+cd $PBS_O_WORKDIR
+
+bash ./run.sh

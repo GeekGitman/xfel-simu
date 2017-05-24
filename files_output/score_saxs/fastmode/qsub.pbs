@@ -1,0 +1,11 @@
+#!/bin/sh -f
+#PBS -N calcSPInoise
+#PBS -l nodes=1:ppn=9
+#PBS -o test.stdout
+#PBS -e test.stderr
+#PBS -q high
+
+nprocs=`wc -l < $PBS_NODEFILE`
+cd $PBS_O_WORKDIR
+
+python ./gen_line_profile.py 8

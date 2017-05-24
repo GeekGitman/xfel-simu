@@ -142,14 +142,14 @@ Run `Demo/job.py` to submit the task to the server.  `nlst1` is the complex list
 The program will generate a set of angles on grid, like [(-22.5,-22.5,-22.5),(-22.5,-19.5,-22.5),(-22.5,-16.5,-22.5)...(22.5,22.5,22.5)]; and a set of random angles within the range, like[(-15.3, 21.9 ,5.2),(10.7, -3.0, 17.9), (-4.0, 0.1, -9.6), ... ] .
 
 ```bash
-cd  gen_grid
-#modify the grid mesh here
-vim gen_grid.py
-python gen_grid.py
-#paste the output as the input (angles of grid mesh)
-cat taskgrid.txt >> Demo/root/task.input
-#Or (random angles):
-cat taskrand.txt >> Demo/root/task.input
+    cd  gen_grid
+    #modify the grid mesh here
+    vim gen_grid.py
+    python gen_grid.py
+    #paste the output as the input (angles of grid mesh)
+    cat taskgrid.txt >> Demo/root/task.input
+    #Or (random angles):
+    cat taskrand.txt >> Demo/root/task.input
 ```
 
 #### Add noise (Optional)
@@ -232,7 +232,7 @@ Then `SAXS.csv` is generated. The first column is the complex index, the second 
 #### **How to run:**
 Same as orientation matching case, except the Path.
 ```bash
-	cd files_output/score_mis_spi
+    cd files_output/score_mis_spi
     #Serial Mode:
 	python compare_spi_mis.py
 	#Or Parallel Mode:
@@ -277,7 +277,7 @@ After you run the following code, the images would be saved in `./graph/N/`
 	cd Demo/review/scatterplot
     cp Demo/files_output/score_spi/spi.csv . # Or you can plot autocorr, saxs etc.. As long as the first column is index, second column is score
     cp Demo/rmsd.csv .#You need to calculate RMSD using VMD
-	python plot.py
+    python plot.py
 ```	
 *Note:* You need to modify the last few lines of the program for different input data. Please read the comments in the `plot.py`.
 

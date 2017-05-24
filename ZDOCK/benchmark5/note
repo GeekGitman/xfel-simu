@@ -1,0 +1,2 @@
+#Get benchmark
+wget https://zlab.umassmed.edu/benchmark/benchmark5.tgz
